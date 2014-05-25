@@ -45,7 +45,19 @@
 		postagemDom.setAttribute("id", identificador);
 		postagemDom.classList.add("postagem");
 		textoMensagemDom.textContent = mensagem;
-		curtidasDom.textContent = curtidas + ((curtidas !== 1) ? " curtidas" : " curtida");
+		var textoCurtidas;
+		switch (curtidas) {
+			case 1:
+				textoCurtidas = "1 curtida";
+				break;
+			case 25:
+				textoCurtidas = "Mais de 25 curtidas";
+				break;
+			default:
+				textoCurtidas = curtidas + " curtidas";
+				break;
+		}
+		curtidasDom.textContent = textoCurtidas;
 		enlaceDom.textContent = "Ir para o segredo";
 		enlaceDom.setAttribute("href", enlace);
 		mensagemDom.appendChild(textoMensagemDom);
@@ -65,6 +77,11 @@
 	Ui.prototype.finalizarCarregamento = function () {
 		document.querySelector("#summ header > div.carregamento img").classList.remove("visivel");
 		document.querySelector("#summ header > div.carregamento p").textContent = "Todos segredos carregados.";
+	};
+
+	Ui.prototype.finalizarCarregamentoComErro = function () {
+		document.querySelector("#summ header > div.carregamento img").classList.remove("visivel");
+		document.querySelector("#summ header > div.carregamento p").textContent = "Ocorreu um erro ao obter os segredos. Foi mau ae.";
 	};
 
 	Ui.prototype.entrarNoModoBusca = function (busca) {
@@ -262,7 +279,7 @@
 		},
 
 		tratarErro: function (resposta) {
-			console.log(resposta);
+			this.ui.finalizarCarregamentoComErro();
 		}
 	};
 

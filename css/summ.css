@@ -179,7 +179,9 @@ a:focus {
 }
 
 #summ header > div.carregamento p {
-	color: #2F477A;
+	/*color: #2F477A;*/
+	/*color: #23355B;*/
+	color: #A7B4D1;
 	text-align: center;
 }
 
