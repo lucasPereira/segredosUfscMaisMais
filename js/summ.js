@@ -1,18 +1,29 @@
 (function (){
-	function Controle() {
+	function Controle(ui, cache) {
+		this.ui = ui;
+		this.cache = cache;
+		this.buscaDom = document.querySelector("#busca");
 		document.querySelector("#busca").addEventListener("keyup", this.buscar.bind(this));
 		document.querySelector("#limpar").addEventListener("click", this.limpar.bind(this));
+		this.cache.adicionarObservavel(this.buscar.bind(this));
 	}
 
-	Controle.prototype.limpar = function (evento) {
-		document.querySelector("#busca").value = "";
+	Controle.prototype.limpar = function () {
+		this.ui.sairDoModoBusca();
 	};
 
-	Controle.prototype.buscar = function (evento) {
-		Summ.buscar(evento.target.value);
+	Controle.prototype.buscar = function () {
+		var filtro = this.buscaDom.value;
+		if (filtro.trim() === "") {
+			this.ui.sairDoModoBusca();
+		} else {
+			var busca = this.cache.buscar(filtro);
+			this.ui.entrarNoModoBusca(busca);
+		}
 	};
 
 	function Ui(cache) {
+		this.busca = [];
 		this.raiz = document.querySelector("#postagens");
 		cache.adicionarObservavel(this.inserirPostagem.bind(this));
 	}
@@ -21,7 +32,10 @@
 		var identificador = postagem.id.split("_")[1];
 		var mensagem = postagem.message;
 		var enlace = Summ.construirUriPermanente(identificador);
-		var curtidas = postagem.likes.data.length;
+		var curtidas = 0;
+		if (postagem.likes !== undefined) {
+			curtidas = postagem.likes.data.length;
+		}
 		var postagemDom = document.createElement("div");
 		var mensagemDom = document.createElement("section");
 		var textoMensagemDom = document.createElement("p");
@@ -42,11 +56,50 @@
 		salvattore.append_elements(this.raiz, [postagemDom])
 	};
 
+	Ui.prototype.iniciarCarregamento = function () {
+		document.querySelector("#summ header > div.carregamento img").classList.add("visivel");
+		document.querySelector("#summ header > div.carregamento p").textContent = "(Poderá levar um tempo para carregar todos segredos.)";
+
+	};
+
+	Ui.prototype.finalizarCarregamento = function () {
+		document.querySelector("#summ header > div.carregamento img").classList.remove("visivel");
+		document.querySelector("#summ header > div.carregamento p").textContent = "Todos segredos carregados.";
+	};
+
+	Ui.prototype.entrarNoModoBusca = function (busca) {
+		this.limparSelecoes();
+		this.busca = busca;
+		document.querySelector("#postagens").classList.add("modoBusca");
+		for (var indice = 0; indice < busca.length; indice++) {
+			var postagem = busca[indice];
+			var identificador = postagem.id.split("_")[1];
+			document.getElementById(identificador).classList.add("visivel");
+		}
+	};
+
+	Ui.prototype.limparSelecoes = function () {
+		var busca = this.busca;
+		for (var indice = 0; indice < busca.length; indice++) {
+			var postagem = busca[indice];
+			var identificador = postagem.id.split("_")[1];
+			document.getElementById(identificador).classList.remove("visivel");
+		}
+	};
+
+	Ui.prototype.sairDoModoBusca = function () {
+		document.querySelector("#busca").value = "";
+		document.querySelector("#postagens").classList.remove("modoBusca");
+		this.limparSelecoes();
+	};
+
 	function Cache() {
 		this.postagens = [];
 		this.observadores = [];
 		this.segredos = {};
-		this.adms = {};
+		this.adms = {
+			"#adm": []
+		};
 	}
 
 	Cache.prototype.adicionarObservavel = function (tratador) {
@@ -75,7 +128,7 @@
 	};
 
 	Cache.prototype.buscarSegredo = function (filtro, resultados) {
-		var buscaSegredo = (/#[0-9]{1,4}/g).exec(filtro);
+		var buscaSegredo = filtro.match(/#[0-9]{1,4}/g);
 		if (buscaSegredo !== null) {
 			for (var indiceSegredo = 0; indiceSegredo < buscaSegredo.length; indiceSegredo++) {
 				var busca = buscaSegredo[indiceSegredo];
@@ -87,7 +140,7 @@
 	};
 
 	Cache.prototype.buscarAdm = function (filtro, resultados) {
-		var buscaAdm = (/#adm[0-9]/g).exec(filtro);
+		var buscaAdm = filtro.match(/#adm[0-9]?/g);
 		if (buscaAdm !== null) {
 			for (var indiceAdm = 0; indiceAdm < buscaAdm.length; indiceAdm++) {
 				var busca = buscaAdm[indiceAdm];
@@ -104,7 +157,7 @@
 	}
 
 	Cache.prototype.indexarSegredo = function (postagem) {
-		var segredos = (/#[0-9]{1,4}/g).exec(postagem.message);
+		var segredos = postagem.message.match(/#[0-9]{1,4}/g)
 		if (segredos !== null) {
 			for (var indice = 0; indice < segredos.length; indice++) {
 				segredo = segredos[indice];
@@ -117,7 +170,7 @@
 	};
 
 	Cache.prototype.indexarAdm = function (postagem) {
-		var adms = (/#adm[0-9]/g).exec(postagem.message);
+		var adms = postagem.message.match(/#adm[0-9]/g)
 		if (adms !== null) {
 			for (var indice = 0; indice < adms.length; indice++) {
 				adm = adms[indice];
@@ -125,17 +178,19 @@
 					this.adms[adm] = [];
 				}
 				this.adms[adm].push(postagem);
+				this.adms["#adm"].push(postagem);
 			}
 		}
 	};
 
 	Cache.prototype.guardar = function (maisPostagens) {
-		for (var indice =0; indice < maisPostagens.length; indice++) {
+		for (var indice = 0; indice < maisPostagens.length; indice++) {
 			var postagem = maisPostagens[indice];
-			if (postagem.message) {
+			if (postagem.message !== undefined && postagem.story === undefined) {
 				this.indexar(postagem);
 			} else {
 				maisPostagens.splice(indice, 1);
+				indice--;
 			}
 		}
 		this.postagens.push.apply(this.postagens, maisPostagens);
@@ -162,8 +217,7 @@
 	Carregador.prototype.receber = function (postagens) {
 		console.log(postagens.data.length + " postagens carregadas.");
 		this.cache.guardar(postagens.data);
-		this.finalizacao();
-		// this.carregarMais(postagens.paging);
+		this.carregarMais(postagens.paging);
 	};
 
 	Carregador.prototype.avisarFinalizacao = function (tratador) {
@@ -179,16 +233,14 @@
 			this.cache = new Cache();
 			this.ui = new Ui(this.cache);
 			this.carregador = new Carregador(this.cache);
+			this.ui.iniciarCarregamento();
 			this.carregador.iniciar();
+			this.controle = new Controle(this.ui, this.cache);
 			this.carregador.avisarFinalizacao(this.finalizarCarregamento.bind(this));
 		},
 
 		finalizarCarregamento: function () {
-			this.controle = new Controle();
-		},
-
-		buscar: function (filtro) {
-			console.log(this.cache.buscar(filtro));
+			this.ui.finalizarCarregamento();
 		},
 
 		construirUriPermanente: function (identificador) {

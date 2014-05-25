@@ -10,22 +10,20 @@
 	<body>
 		<div id="summ">
 			<header>
-				<div class="busca">
-					<input type="text" id="busca" placeholder="procure por #numeroDoSegredo ou #admN" />
-					<button id="limpar" title="Limpar busca"><img src="../svg/limpar.svg" /></button>
+				<input type="text" id="busca" placeholder="procure por #numeroDoSegredo ou #admN" />
+				<button id="limpar">
+					<img src="../svg/limpar.svg" />
+				</button>
+				<small>(exemplos de busca: "#1444", "#adm2 #adm3")</small>
+				<div class="loader">
+					<div class="bar"></div>
+					<div class="bar"></div>
+					<div class="bar"></div>
+					<p>(Poderá levar um tempo para carregar todos segredos.)</p>
 				</div>
-				<div class="explicacao">
-					<small>(exemplos de busca: "#1444", "#adm2 #adm3")</small>
-				</div>
-				<div class="carregamento">
-					<img src="../gif/carregadorFacebook.gif" alt="Carregando" title="Carregado" />
-					<p></p>
-				</div>
-				<div class="gitHub">
-					<a href="https://github.com/lucasPereira/segredosUfscMaisMais">
-						<img src="../png/gitHub.png" alt="GitHub do (Segredos UFSC)++" title="GitHub do (Segredos UFSC)++" />
-					</a>
-				</div>
+				<a href="https://github.com/lucasPereira/segredosUfscMaisMais">
+					<img src="../png/gitHub.png" alt="GitHub do (Segredos UFSC)++" title="GitHub do (Segredos UFSC)++" />
+				</a>
 			</header>
 			<section id="postagens" data-columns></section>
 		</div>
