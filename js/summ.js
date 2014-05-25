@@ -17,6 +17,7 @@
 		if (filtro.trim() === "") {
 			this.ui.sairDoModoBusca();
 		} else {
+			filtro = filtro.replace(/\s(#)*/g, "#").replace(/^#?/, "#");
 			var busca = this.cache.buscar(filtro);
 			this.ui.entrarNoModoBusca(busca);
 		}
