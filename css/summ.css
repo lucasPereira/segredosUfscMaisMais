@@ -1,0 +1,135 @@
+@charset "utf-8";
+
+body {
+	background-color: #E9EAED;
+	font-family: 'helvetica neue', helvetica, arial, 'lucida grande', sans-serif;
+	font-size: 0.9em;
+}
+
+a {
+	color: #3B5998;
+	text-decoration: none;
+}
+
+a:hover,
+a:focus {
+	text-decoration: underline;
+}
+
+input {
+	border-width: 0;
+	padding: 10px;
+	width: 400px;
+	outline: none;
+}
+
+#summ header {
+	background-color: #4C66A4;
+	padding: 12px;
+	display: flex;
+	flex-direction: row;
+	flex-wrap: nowrap;
+	justify-content: flex-start;
+	align-items: center;
+}
+
+#summ header button {
+	background-color: transparent;
+	border: none;
+	cursor: pointer;
+	margin: 0;
+	padding: 0;
+	margin-left: 5px;
+	outline: none;
+}
+
+#summ header small {
+	color: #FFF;
+	font-size: 0.8em;
+	font-style: italic;
+	margin-left: 10px;
+}
+
+#summ header a {
+	flex-grow: 1;
+	flex-basis: 0;
+	color: #FFF;
+	text-align: right;
+}
+
+#summ header a img {
+	width: 32px;
+}
+
+@media screen and (max-width: 768px){
+	#summ #postagens[data-columns]::before {
+		content: '1 .salvattore';
+	}
+
+	.salvattore {
+		width: 100%;
+	}
+}
+
+@media screen and (min-width: 769px) {
+	#summ #postagens[data-columns]::before {
+		content: '2 .salvattore';
+	}
+
+	.salvattore {
+		width: 50%;
+	}
+}
+
+.salvattore {
+	float: left;
+}
+
+.salvattore + .salvattore {
+	box-sizing: border-box;
+	border-left-color: #3B5998;
+	border-left-style: solid;
+	border-left-width: 1px;
+}
+
+#summ #postagens div.postagem.invisivel {
+	display: none;
+}
+
+#summ #postagens div.postagem {
+	border-color: #E5E6E9 #DFE0E4 #D0D1D5;
+	border-style: solid;
+	border-width: 1px;
+	margin: 20px 30px;
+}
+
+#summ #postagens div.postagem section {
+	background-color: #FFF;
+	color: #4E5665;
+	padding: 10px;
+}
+
+#summ #postagens div.postagem section p {
+	line-height: 1.5;
+	text-overflow:ellipsis;
+	overflow: hidden;
+}
+
+#summ #postagens div.postagem footer {
+	background-color: #F6F7F8;
+	padding: 7px;
+}
+
+#summ #postagens div.postagem footer small {
+	color: #898F9C;
+	font-size: 0.8em;
+	margin-left: 10px;
+}
+
+#summ #postagens div.postagem footer small::before {
+	content: "(";
+}
+
+#summ #postagens div.postagem footer small::after {
+	content: ")";
+}
