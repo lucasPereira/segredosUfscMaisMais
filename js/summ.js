@@ -227,13 +227,11 @@
 		if (paginacao && paginacao.next) {
 			Summ.api(paginacao.next.replace("&limit=25", "&limit=100"), this.receber.bind(this));
 		} else {
-			console.log("Carregamento finalizado.");
 			this.finalizacao();
 		}
 	};
 
 	Carregador.prototype.receber = function (postagens) {
-		console.log(postagens.data.length + " postagens carregadas.");
 		this.cache.guardar(postagens.data);
 		this.carregarMais(postagens.paging);
 	};
