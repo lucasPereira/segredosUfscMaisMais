@@ -1,4 +1,7 @@
 (function (){
+
+	"use strict";
+
 	function Controle(ui, cache) {
 		this.ui = ui;
 		this.cache = cache;
@@ -172,7 +175,7 @@
 	Cache.prototype.indexar = function (postagem) {
 		this.indexarSegredo(postagem);
 		this.indexarAdm(postagem);
-	}
+	};
 
 	Cache.prototype.indexarSegredo = function (postagem) {
 		var segredos = postagem.message.match(/#[0-9]{1,4}/g)
@@ -286,4 +289,5 @@
 		window.Summ = Summ;
 		Summ.inicializar();
 	});
+
 }());
