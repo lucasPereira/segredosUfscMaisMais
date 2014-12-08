@@ -181,7 +181,7 @@
 		var segredos = postagem.message.match(/#[0-9]{1,4}/g)
 		if (segredos !== null) {
 			for (var indice = 0; indice < segredos.length; indice++) {
-				segredo = segredos[indice];
+				var segredo = segredos[indice];
 				if (this.segredos[segredo] === undefined) {
 					this.segredos[segredo] = [];
 				}
