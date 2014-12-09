@@ -4,6 +4,7 @@ window.fbAsyncInit = function() {
 		xfbml: false,
 		version: 'v2.0'
 	});
+	Summ.inicializar();
 };
 
 (function(d, s, id){
