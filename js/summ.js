@@ -194,7 +194,7 @@
 		var adms = postagem.message.match(/#adm[0-9]/g)
 		if (adms !== null) {
 			for (var indice = 0; indice < adms.length; indice++) {
-				adm = adms[indice];
+				var adm = adms[indice];
 				if (this.adms[adm] === undefined) {
 					this.adms[adm] = [];
 				}
