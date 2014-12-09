@@ -1,4 +1,4 @@
-(function (){
+(function (contexto) {
 
 	"use strict";
 
@@ -285,9 +285,6 @@
 		}
 	};
 
-	window.addEventListener("load", function () {
-		window.Summ = Summ;
-		Summ.inicializar();
-	});
+	contexto.Summ = Summ;
 
-}());
+}(this));
