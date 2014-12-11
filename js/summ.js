@@ -64,6 +64,7 @@
 		curtidasDom.textContent = textoCurtidas;
 		enlaceDom.textContent = "Ir para o segredo";
 		enlaceDom.setAttribute("href", enlace);
+		enlaceDom.setAttribute("target","_black");
 		mensagemDom.appendChild(textoMensagemDom);
 		rodapeDom.appendChild(enlaceDom);
 		rodapeDom.appendChild(curtidasDom);
