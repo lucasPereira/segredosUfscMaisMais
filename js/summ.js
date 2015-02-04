@@ -37,36 +37,65 @@
 		var mensagem = postagem.message;
 		var enlace = Summ.construirUriPermanente(identificador);
 		var curtidas = 0;
+		var comentarios = 0;
 		if (postagem.likes !== undefined) {
 			curtidas = postagem.likes.data.length;
+		}
+		if(postagem.comments !== undefined){
+			comentarios = postagem.comments.data.length;
 		}
 		var postagemDom = document.createElement("div");
 		var mensagemDom = document.createElement("section");
 		var textoMensagemDom = document.createElement("p");
 		var rodapeDom = document.createElement("footer");
 		var curtidasDom = document.createElement("small");
+		var comentariosDom = document.createElement("small");
 		var enlaceDom = document.createElement("a");
 		postagemDom.setAttribute("id", identificador);
 		postagemDom.classList.add("postagem");
 		textoMensagemDom.textContent = mensagem;
 		var textoCurtidas;
-		switch (curtidas) {
-			case 1:
-				textoCurtidas = "1 curtida";
-				break;
-			case 25:
-				textoCurtidas = "Mais de 25 curtidas";
-				break;
-			default:
-				textoCurtidas = curtidas + " curtidas";
-				break;
+		var textoComentarios;
+
+		rodapeDom.appendChild(enlaceDom);
+		
+		if( curtidas > 0 )
+		{
+			switch (curtidas) {
+				case 1:
+					textoCurtidas = "1 curtida";
+					break;
+				case 25:
+					textoCurtidas = "Mais de 25 curtidas";
+					break;
+				default:
+					textoCurtidas = curtidas + " curtidas";
+					break;
+			}
+			rodapeDom.appendChild(curtidasDom);
 		}
+
+		if(comentarios > 0){
+			switch (comentarios) {
+				case 1:
+					textoComentarios = "1 comentário";
+					break;
+				case 25:
+					textoComentarios = "Mais de 25 comentários";
+					break;
+				default:
+					textoComentarios = comentarios + " comentários";
+					break;
+			}
+			rodapeDom.appendChild(comentariosDom);
+		}
+
 		curtidasDom.textContent = textoCurtidas;
+		comentariosDom.textContent = textoComentarios;
 		enlaceDom.textContent = "Ir para o segredo";
 		enlaceDom.setAttribute("href", enlace);
+		enlaceDom.setAttribute("target","_black");
 		mensagemDom.appendChild(textoMensagemDom);
-		rodapeDom.appendChild(enlaceDom);
-		rodapeDom.appendChild(curtidasDom);
 		postagemDom.appendChild(mensagemDom);
 		postagemDom.appendChild(rodapeDom);
 		salvattore.append_elements(this.raiz, [postagemDom])
