@@ -41,7 +41,7 @@
 		if (postagem.likes !== undefined) {
 			curtidas = postagem.likes.data.length;
 		}
-		if(postagem.comments !== undefined){
+		if (postagem.comments !== undefined) {
 			comentarios = postagem.comments.data.length;
 		}
 		var postagemDom = document.createElement("div");
@@ -56,11 +56,8 @@
 		textoMensagemDom.textContent = mensagem;
 		var textoCurtidas;
 		var textoComentarios;
-
 		rodapeDom.appendChild(enlaceDom);
-		
-		if( curtidas > 0 )
-		{
+		if ( curtidas > 0 ) {
 			switch (curtidas) {
 				case 1:
 					textoCurtidas = "1 curtida";
@@ -74,8 +71,7 @@
 			}
 			rodapeDom.appendChild(curtidasDom);
 		}
-
-		if(comentarios > 0){
+		if (comentarios > 0) {
 			switch (comentarios) {
 				case 1:
 					textoComentarios = "1 comentário";
@@ -89,7 +85,6 @@
 			}
 			rodapeDom.appendChild(comentariosDom);
 		}
-
 		curtidasDom.textContent = textoCurtidas;
 		comentariosDom.textContent = textoComentarios;
 		enlaceDom.textContent = "Ir para o segredo";
@@ -252,18 +247,21 @@
 	}
 
 	Carregador.prototype.iniciar = function () {
-		Summ.api(Summ.construirUri("/posts"), this.receber.bind(this));
+		Summ.api(Summ.construirUri("/posts") + "&limit=240", this.receber.bind(this));
 	};
 
 	Carregador.prototype.carregarMais = function (paginacao) {
 		if (paginacao && paginacao.next) {
-			Summ.api(paginacao.next.replace("&limit=25", "&limit=100"), this.receber.bind(this));
+			var uri = paginacao.next.replace("&limit=25", "&limit=240");
+			uri = uri.replace("?limit=25", "?limit=240");
+			Summ.api(uri, this.receber.bind(this));
 		} else {
 			this.finalizacao();
 		}
 	};
 
 	Carregador.prototype.receber = function (postagens) {
+		console.log("Recebendo " + postagens.data.length + " postagens");
 		this.cache.guardar(postagens.data);
 		this.carregarMais(postagens.paging);
 	};
