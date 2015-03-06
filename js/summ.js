@@ -247,13 +247,13 @@
 	}
 
 	Carregador.prototype.iniciar = function () {
-		Summ.api(Summ.construirUri("/posts") + "&limit=240", this.receber.bind(this));
+		var uri = Summ.construirUri("/posts");
+		Summ.api(uri, this.receber.bind(this));
 	};
 
 	Carregador.prototype.carregarMais = function (paginacao) {
 		if (paginacao && paginacao.next) {
-			var uri = paginacao.next.replace("&limit=25", "&limit=240");
-			uri = uri.replace("?limit=25", "?limit=240");
+			var uri = paginacao.next;
 			Summ.api(uri, this.receber.bind(this));
 		} else {
 			this.finalizacao();
