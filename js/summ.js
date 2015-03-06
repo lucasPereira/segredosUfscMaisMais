@@ -247,7 +247,7 @@
 	}
 
 	Carregador.prototype.iniciar = function () {
-		var uri = Summ.construirUri("/feed");
+		var uri = Summ.construirUri("/posts") + "&limit=250";
 		Summ.api(uri, this.receber.bind(this));
 	};
 
