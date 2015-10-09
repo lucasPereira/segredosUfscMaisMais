@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="pt" ng-app="Application">
+  <head>
+  	<meta charset="UTF-8">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
+
+	<link rel="stylesheet" href="css/style.css">
+    <script src="node_modules/angular/angular.min.js"></script>
+    <script src="js/facebook.js"></script>
+    <script src="app.js"></script>
+    <title>Segredos UFSC ++</title>
+  </head>
+  <body ng-controller="MainController">
+  <div class="container">
+	<nav class="navbar navbar-inverse">
+		<a class="navbar-brand brand-git" href="#">
+			<img src="http://www.mapcentia.com/images/icons/frontpage/github.png">
+		</a>
+		<div class="form-group">
+			<input type="text" class="form-control search" ng-model="query" placeholder="Pesquise por um Segredo">
+		</div>
+	</nav>
+	<div class="row">
+        <div class="col-md-6" ng-repeat="post in posts  | filter:{message:query}">
+			<div class="list-group">
+				<a target="_black" title="Clique para ler ..." href="http://www.facebook.com/{{ page }}/posts/{{ post.id }}" class="list-group-item active">
+					<!-- <h4 class="list-group-item-heading">List group item heading</h4> -->
+					<p>{{ post.message | cutMessage }}</p>
+					<p class="featured">Curtida(s): {{ post.likes.data.length }} | Comentário(s): {{ post.likes.data.length }}</p>
+				</a>
+			</div>
+		</div>
+	</div>
+  </div>
+  </body>
+</html>
