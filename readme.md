@@ -1,6 +1,6 @@
 (Segredos UFSC)++
 ============
-Aplicativo para procurar segredos da página Segredos UFSC do Facebook.
+Aplicativo para procurar segredos da página Segredos UFSC do Facebook usando qualquer palavra que componha o segredo.
 
 ## Acesse
 
