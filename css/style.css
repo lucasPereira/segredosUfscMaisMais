@@ -1,0 +1,18 @@
+.container {
+    margin-bottom:10px;
+    margin-top:10px;
+}
+.search{
+	border-radius: unset;
+	float: right;
+	margin-right: 10px;
+	margin-top: 8px;
+	width: 25%;
+}
+.brand-git img{
+	margin-top: -5px;
+	width: 30px;
+}
+.featured {
+    font-weight:bold;
+}

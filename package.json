@@ -1,0 +1,16 @@
+{
+  "name": "pagesufsc",
+  "version": "1.0.0",
+  "description": "Sistema de pesquisa para algumas páginas da UFSC usando AngularJS",
+  "main": "index.js",
+  "dependencies": {
+    "angular": "^1.4.7",
+    "bootstrap": "^3.3.5"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}
